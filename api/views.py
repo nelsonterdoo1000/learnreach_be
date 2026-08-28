@@ -339,7 +339,7 @@ def email_chat_history(request):
     for m in messages:
         sender_name = "You" if m.sender == 'user' else "AI Tutor"
         color = "#000000" if m.sender == 'user' else "#2e7d32"
-        html_content = markdown.markdown(m.content)
+        html_content = markdown.markdown(m.content, extensions=['extra', 'nl2br'])
         transcript_html += f"<div style='color: {color}; margin-bottom: 12px;'><strong>[{sender_name}]:</strong> {html_content}</div>"
         
     success = send_chat_transcript(request.user.email, transcript_html)
