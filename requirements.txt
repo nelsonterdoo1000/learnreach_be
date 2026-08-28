@@ -38,5 +38,3 @@ typing-inspection==0.4.4
 typing_extensions==4.16.0
 uritemplate==4.2.0
 urllib3==2.7.0
-python-dotenv==1.0.10
-psycopg2-binary==2.9.9
