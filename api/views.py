@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 from django.utils.crypto import get_random_string
 from .models import Profile, LearningSession, Message, Quiz, Question, Answer, OTP
 from .ai_utils import generate_explanation, generate_quiz, analyze_session, generate_flashcards
-from .email_utils import send_signup_otp, send_reset_otp, send_chat_transcript
+from .email_utils import send_signup_otp, send_reset_otp, send_chat_transcript, send_welcome_email
 import PyPDF2
 import urllib.parse
 import markdown
@@ -278,6 +278,8 @@ def verify_signup_otp(request):
         user.is_active = True
         user.save()
         otp.delete()
+        
+        send_welcome_email(user.email)
         
         return Response({'message': 'Account verified successfully'})
     except (User.DoesNotExist, OTP.DoesNotExist):

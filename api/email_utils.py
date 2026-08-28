@@ -118,3 +118,44 @@ def send_chat_transcript(email, transcript_html):
     """
     html_body = get_base_html("Session Transcript", content)
     return send_zeptomail(email, subject, html_body)
+
+def send_welcome_email(email):
+    subject = "Welcome to LearnReach 2.0! 🚀"
+    content = f"""
+        <div style="background: linear-gradient(135deg, #e0f2fe 0%, #dcfce7 100%); padding: 30px; border-radius: 12px; margin-bottom: 24px;">
+            <h2 style="color: #047857; margin-top: 0; font-size: 24px;">Your AI Tutor Awaits!</h2>
+            <p style="color: #1f2937; font-size: 16px; margin-bottom: 0;">We're thrilled to have you on board. LearnReach is designed to break down complex topics, adapt to your learning speed, and help you master any subject.</p>
+        </div>
+        
+        <h3 style="color: #1a1a1a; font-size: 20px; border-bottom: 2px solid #e5e7eb; padding-bottom: 8px;">Here's how to get the most out of it:</h3>
+        
+        <ul style="list-style-type: none; padding-left: 0; margin-top: 20px;">
+            <li style="margin-bottom: 16px; display: flex; align-items: flex-start;">
+                <span style="background-color: #dbeafe; color: #1e40af; border-radius: 50%; width: 28px; height: 28px; display: inline-flex; align-items: center; justify-content: center; margin-right: 12px; flex-shrink: 0; font-weight: bold;">1</span>
+                <div>
+                    <strong style="color: #1e3a8a; display: block; margin-bottom: 4px;">Chat & Learn</strong>
+                    <span style="color: #4b5563;">Ask any question, or upload your PDF study materials. Your AI tutor will explain concepts simply using relatable analogies.</span>
+                </div>
+            </li>
+            <li style="margin-bottom: 16px; display: flex; align-items: flex-start;">
+                <span style="background-color: #fef3c7; color: #92400e; border-radius: 50%; width: 28px; height: 28px; display: inline-flex; align-items: center; justify-content: center; margin-right: 12px; flex-shrink: 0; font-weight: bold;">2</span>
+                <div>
+                    <strong style="color: #78350f; display: block; margin-bottom: 4px;">Speak & Listen</strong>
+                    <span style="color: #4b5563;">Use the microphone to speak your questions, and hear the explanations out loud.</span>
+                </div>
+            </li>
+            <li style="margin-bottom: 16px; display: flex; align-items: flex-start;">
+                <span style="background-color: #f3e8ff; color: #6b21a8; border-radius: 50%; width: 28px; height: 28px; display: inline-flex; align-items: center; justify-content: center; margin-right: 12px; flex-shrink: 0; font-weight: bold;">3</span>
+                <div>
+                    <strong style="color: #581c87; display: block; margin-bottom: 4px;">Practice Quizzes</strong>
+                    <span style="color: #4b5563;">Ask the tutor to generate a quiz to test your knowledge and get immediate feedback.</span>
+                </div>
+            </li>
+        </ul>
+        
+        <div style="text-align: center; margin-top: 32px;">
+            <a href="https://careerdevnetwork.com/login" style="display: inline-block; background-color: #0f6b4d; color: white; text-decoration: none; padding: 14px 28px; border-radius: 50px; font-weight: bold; font-size: 16px; box-shadow: 0 4px 12px rgba(15, 107, 77, 0.3);">Go to your Study Space →</a>
+        </div>
+    """
+    html_body = get_base_html("Welcome to LearnReach!", content)
+    return send_zeptomail(email, subject, html_body)
