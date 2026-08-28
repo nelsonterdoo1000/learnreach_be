@@ -71,10 +71,10 @@ def analyze_session(chat_history):
             "You are an expert educational evaluator reviewing a tutoring session.\n"
             "Read the following session transcript and identify the student's progress.\n\n"
             f"TRANSCRIPT:\n{history_text[:50000]}\n\n"
-            "Analyze the transcript and provide a JSON response with exactly three keys:\n"
-            "1. 'summary': A 1-2 sentence summary of what was covered and learned.\n"
-            "2. 'learning_gaps': A 1-2 sentence description of any concepts the learner struggled with or misunderstood. If none, say 'No major gaps identified.'\n"
-            "3. 'recommendations': A 1-2 sentence recommendation for what the guardian or teacher should help the learner with next.\n\n"
+            "Analyze the transcript and provide a highly detailed, specific JSON response with exactly three keys:\n"
+            "1. 'summary': A comprehensive summary of the specific topics and concepts covered in this session.\n"
+            "2. 'learning_gaps': A detailed assessment of exactly which concepts the learner struggled with, what misconceptions they had, and what topics need more review. If none, explain that the learner demonstrated strong understanding of all concepts discussed.\n"
+            "3. 'recommendations': Specific, actionable recommendations for the guardian or teacher on how to support this learner, including recommended topics for future quizzes or discussions.\n\n"
             "Return ONLY raw JSON, with no markdown code blocks or backticks."
         )
         
@@ -126,17 +126,24 @@ def generate_quiz(topic, learning_level, num_questions=3, chat_history=None, fil
         print(f"Error generating quiz with Gemini API: {e}")
         return []
 
-def generate_flashcards(learning_gaps, language="English"):
+def generate_flashcards(chat_history, file_context=None, language="English"):
     """
-    Generates a set of 5 flashcards based on the provided learning gaps.
+    Generates a set of 5 flashcards based on the provided session context.
     """
     try:
         model = genai.GenerativeModel(
             model_name=MODEL_NAME
         )
+        context_prompt = ""
+        if file_context:
+            context_prompt += f"STUDY MATERIAL:\n---\n{file_context[:10000]}\n---\n\n"
+        if chat_history:
+            context_prompt += f"CHAT HISTORY:\n---\n{chat_history[:10000]}\n---\n\n"
+
         prompt = (
-            f"The learner has the following identified learning gaps:\n{learning_gaps}\n\n"
-            f"Generate exactly 5 flashcards to help them overcome these gaps. "
+            f"The learner is studying the topics discussed below:\n\n"
+            f"{context_prompt}"
+            f"Generate exactly 5 flashcards to help them test their knowledge and remember key concepts from this session. "
             f"CRITICAL: The flashcards MUST be written in the {language} language. "
             "Return the output STRICTLY as a JSON array of objects. Do not include markdown code blocks like ```json. "
             "Each object must have the following keys: "

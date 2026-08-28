@@ -176,11 +176,14 @@ def generate_flashcards_view(request, session_id):
     except LearningSession.DoesNotExist:
         return Response({'error': 'Session not found'}, status=status.HTTP_404_NOT_FOUND)
         
-    if not session.learning_gaps:
-        return Response({'error': 'No learning gaps identified for this session. Please have the Guardian run an analysis first.'}, status=status.HTTP_400_BAD_REQUEST)
+    messages = Message.objects.filter(session=session).order_by('timestamp')
+    chat_history = ""
+    for m in messages:
+        sender_name = "Learner" if m.sender == 'user' else "AI Tutor"
+        chat_history += f"[{sender_name}]: {m.content}\n"
         
     # Generate flashcards data from Gemini
-    flashcards_data = generate_flashcards(session.learning_gaps, language=language)
+    flashcards_data = generate_flashcards(chat_history, file_context=session.file_context, language=language)
     
     if not flashcards_data:
         return Response({'error': 'Failed to generate flashcards'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
