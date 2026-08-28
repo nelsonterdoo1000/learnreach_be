@@ -9,6 +9,7 @@ from .ai_utils import generate_explanation, generate_quiz, analyze_session, gene
 from .email_utils import send_signup_otp, send_reset_otp, send_chat_transcript
 import PyPDF2
 import urllib.parse
+import markdown
 
 @api_view(['POST'])
 @permission_classes([AllowAny]) # Webhooks need to be publicly accessible, but ideally validated by a signature
@@ -336,7 +337,8 @@ def email_chat_history(request):
     for m in messages:
         sender_name = "You" if m.sender == 'user' else "AI Tutor"
         color = "#000000" if m.sender == 'user' else "#2e7d32"
-        transcript_html += f"<p style='color: {color}; margin-bottom: 12px;'><strong>[{sender_name}]:</strong> {m.content}</p>"
+        html_content = markdown.markdown(m.content)
+        transcript_html += f"<div style='color: {color}; margin-bottom: 12px;'><strong>[{sender_name}]:</strong> {html_content}</div>"
         
     success = send_chat_transcript(request.user.email, transcript_html)
     if success:
