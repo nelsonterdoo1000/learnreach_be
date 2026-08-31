@@ -427,7 +427,10 @@ def ai_weekend_verify_payment(request):
         is_paid=True
     )
 
-    # Send first email
-    send_ai_weekend_locked_in(email)
+    # Send first email securely (wrap in try-except so an email error doesn't break the payment flow)
+    try:
+        send_ai_weekend_locked_in(email)
+    except Exception as e:
+        print(f"Failed to send locked-in email to {email}: {e}")
 
     return Response({'message': 'Payment verified and registration complete', 'id': registration.id}, status=status.HTTP_200_OK)
