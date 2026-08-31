@@ -64,16 +64,16 @@ def get_base_html(title, content, app_name="LearnReach", footer_text="&copy; 202
     <body style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f7f6; margin: 0; padding: 40px 20px;">
         <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
             <div style="background-color: #1a1a1a; padding: 30px; text-align: center;">
-                <h1 style="color: #ffffff; margin: 0; font-size: 28px; font-weight: 600; letter-spacing: 1px;">{{app_name}}</h1>
+                <h1 style="color: #ffffff; margin: 0; font-size: 28px; font-weight: 600; letter-spacing: 1px;">{app_name}</h1>
             </div>
             <div style="padding: 40px 30px;">
-                <h2 style="color: #1a1a1a; margin-top: 0; margin-bottom: 24px; font-size: 22px;">{{title}}</h2>
+                <h2 style="color: #1a1a1a; margin-top: 0; margin-bottom: 24px; font-size: 22px;">{title}</h2>
                 <div style="color: #4a5568; font-size: 16px; line-height: 1.6;">
-                    {{content}}
+                    {content}
                 </div>
             </div>
             <div style="background-color: #f8fafc; padding: 20px; text-align: center; border-top: 1px solid #edf2f7;">
-                <p style="margin: 0; color: #718096; font-size: 14px;">{{footer_text}}</p>
+                <p style="margin: 0; color: #718096; font-size: 14px;">{footer_text}</p>
                 <p style="margin: 5px 0 0; color: #a0aec0; font-size: 12px;">This is an automated message, please do not reply.</p>
             </div>
         </div>
