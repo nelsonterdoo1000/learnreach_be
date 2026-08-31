@@ -23,4 +23,8 @@ urlpatterns = [
     path('email-chat/', views.email_chat_history, name='email_chat_history'),
     path('quiz/generate/', views.generate_quiz_view, name='generate_quiz'),
     path('upload-material/', views.upload_material, name='upload_material'),
+    
+    # AI Weekend Endpoints
+    path('ai-weekend/verify-payment/', views.ai_weekend_verify_payment, name='ai_weekend_verify_payment'),
+    path('ai-weekend/checkout-intent/', views.log_checkout_intent, name='log_checkout_intent'),
 ]

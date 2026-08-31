@@ -53,7 +53,7 @@ def send_zeptomail(to_email, subject, html_body):
         print(f"Failed to send email: {e}")
         return False
 
-def get_base_html(title, content):
+def get_base_html(title, content, app_name="LearnReach", footer_text="&copy; 2026 LearnReach. All rights reserved."):
     return f"""
     <!DOCTYPE html>
     <html>
@@ -63,17 +63,17 @@ def get_base_html(title, content):
     </head>
     <body style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f7f6; margin: 0; padding: 40px 20px;">
         <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.05);">
-            <div style="background-color: #2e7d32; padding: 30px; text-align: center;">
-                <h1 style="color: #ffffff; margin: 0; font-size: 28px; font-weight: 600; letter-spacing: 1px;">LearnReach</h1>
+            <div style="background-color: #1a1a1a; padding: 30px; text-align: center;">
+                <h1 style="color: #ffffff; margin: 0; font-size: 28px; font-weight: 600; letter-spacing: 1px;">{{app_name}}</h1>
             </div>
             <div style="padding: 40px 30px;">
-                <h2 style="color: #1a1a1a; margin-top: 0; margin-bottom: 24px; font-size: 22px;">{title}</h2>
+                <h2 style="color: #1a1a1a; margin-top: 0; margin-bottom: 24px; font-size: 22px;">{{title}}</h2>
                 <div style="color: #4a5568; font-size: 16px; line-height: 1.6;">
-                    {content}
+                    {{content}}
                 </div>
             </div>
             <div style="background-color: #f8fafc; padding: 20px; text-align: center; border-top: 1px solid #edf2f7;">
-                <p style="margin: 0; color: #718096; font-size: 14px;">&copy; 2026 LearnReach. All rights reserved.</p>
+                <p style="margin: 0; color: #718096; font-size: 14px;">{{footer_text}}</p>
                 <p style="margin: 5px 0 0; color: #a0aec0; font-size: 12px;">This is an automated message, please do not reply.</p>
             </div>
         </div>
@@ -158,4 +158,98 @@ def send_welcome_email(email):
         </div>
     """
     html_body = get_base_html("Welcome to LearnReach!", content)
+    return send_zeptomail(email, subject, html_body)
+
+def send_ai_weekend_locked_in(email):
+    subject = "Locked-In for the AI-Weekend Masterclass"
+    content = """
+        <div style="background: linear-gradient(135deg, #111 0%, #0a0a0a 100%); padding: 30px; border-radius: 12px; margin-bottom: 24px; color: #fff;">
+            <h2 style="color: #00ff00; margin-top: 0; font-size: 24px;">You are Locked In! 🚀</h2>
+            <p style="font-size: 16px; margin-bottom: 0;">Congratulations on securing your seat for the AI-Weekend Masterclass. Your 11:47pm moment is officially in motion.</p>
+        </div>
+        <p>In about 10 minutes, you will receive another email with your exclusive access details, the curriculum we will cover, and the tools you need to prepare.</p>
+        <p>Get ready to build.</p>
+        <p>- Terdoo Nelson Nondo</p>
+    """
+    html_body = get_base_html("Registration Confirmed", content, app_name="AI Weekend", footer_text="&copy; 2026 Career Dev Network. All rights reserved.")
+    return send_zeptomail(email, subject, html_body)
+
+def send_ai_weekend_access_details(email):
+    subject = "AI-Weekend Access Details"
+    content = """
+        <div style="background: linear-gradient(135deg, #111 0%, #0a0a0a 100%); padding: 30px; border-radius: 12px; margin-bottom: 24px; color: #fff;">
+            <h2 style="color: #00ff00; margin-top: 0; font-size: 24px;">Your Access Details</h2>
+            <p style="font-size: 16px; margin-bottom: 0;">Here is everything you need for the AI-Weekend Masterclass on Sept 19th & 20th, 2026 (8PM - 11PM Daily).</p>
+        </div>
+        
+        <h3 style="color: #1a1a1a; font-size: 20px; border-bottom: 2px solid #e5e7eb; padding-bottom: 8px;">Curriculum</h3>
+        <ul>
+            <li><strong>The Profit Centers:</strong> Discover actual digital products you can conceive, build, and list before Sunday night.</li>
+            <li><strong>The Attention System:</strong> Learn how to use AI-powered ads to put your product directly in front of buyers.</li>
+            <li><strong>The Automation Layer:</strong> Build the system that takes a total stranger from "never heard of you" to "money in your account" completely hands-free.</li>
+        </ul>
+        
+        <h3 style="color: #1a1a1a; font-size: 20px; border-bottom: 2px solid #e5e7eb; padding-bottom: 8px;">Tools Needed</h3>
+        <ul>
+            <li>A laptop or desktop computer with a stable internet connection.</li>
+            <li>Google Chrome browser.</li>
+            <li>A free ChatGPT account.</li>
+            <li>Your full attention.</li>
+        </ul>
+    """
+    html_body = get_base_html("Access Details", content, app_name="AI Weekend", footer_text="&copy; 2026 Career Dev Network. All rights reserved.")
+    return send_zeptomail(email, subject, html_body)
+
+
+def send_ai_weekend_meeting_link(email):
+    subject = "AI-Weekend Meeting Link - Starting Tomorrow"
+    content = """
+        <div style="background: linear-gradient(135deg, #111 0%, #0a0a0a 100%); padding: 30px; border-radius: 12px; margin-bottom: 24px; color: #fff;">
+            <h2 style="color: #00ff00; margin-top: 0; font-size: 24px;">AI-Weekend Masterclass Link</h2>
+            <p style="font-size: 16px; margin-bottom: 0;">We are starting soon! Here is your meeting link and everything you need to prepare for the AI-Weekend Masterclass on Sept 19th & 20th, 2026 (8PM - 11PM Daily).</p>
+        </div>
+        
+        <h3 style="color: #1a1a1a; font-size: 20px; border-bottom: 2px solid #e5e7eb; padding-bottom: 8px;">Meeting Link</h3>
+        <p><strong>Join here:</strong> <a href="https://meet.google.com/pen-zpft-ppu" style="color: #2e7d32; font-weight: bold;">https://meet.google.com/pen-zpft-ppu</a></p>
+        
+        <h3 style="color: #1a1a1a; font-size: 20px; border-bottom: 2px solid #e5e7eb; padding-bottom: 8px;">Curriculum</h3>
+        <ul>
+            <li><strong>The Profit Centers:</strong> Discover actual digital products you can conceive, build, and list before Sunday night.</li>
+            <li><strong>The Attention System:</strong> Learn how to use AI-powered ads to put your product directly in front of buyers.</li>
+            <li><strong>The Automation Layer:</strong> Build the system that takes a total stranger from "never heard of you" to "money in your account" completely hands-free.</li>
+        </ul>
+        
+        <h3 style="color: #1a1a1a; font-size: 20px; border-bottom: 2px solid #e5e7eb; padding-bottom: 8px;">Tools Needed</h3>
+        <ul>
+            <li>A laptop or desktop computer with a stable internet connection.</li>
+            <li>Google Chrome browser.</li>
+            <li>A free ChatGPT account.</li>
+            <li>Your full attention.</li>
+        </ul>
+    """
+    html_body = get_base_html("Meeting Link", content, app_name="AI Weekend", footer_text="&copy; 2026 Career Dev Network. All rights reserved.")
+    return send_zeptomail(email, subject, html_body)
+
+def send_abandoned_cart_email(email, name, level=1):
+    if level == 1:
+        subject = "Did you forget something?"
+        body_text = "We noticed you started checking out for the AI-Weekend Masterclass but didn't complete your registration."
+    elif level == 2:
+        subject = "Your seat is still reserved (for now)"
+        body_text = "Registration is filling up fast. You started checking out, but didn't finish. Don't let your 11:47pm moment slip away."
+    else:
+        subject = "Final reminder: AI-Weekend Masterclass"
+        body_text = "This is our last reminder. Your spot will be released if you don't complete your registration now."
+
+    content = f"""
+        <div style="background: linear-gradient(135deg, #111 0%, #0a0a0a 100%); padding: 30px; border-radius: 12px; margin-bottom: 24px; color: #fff;">
+            <h2 style="color: #00ff00; margin-top: 0; font-size: 24px;">Hi {{name}},</h2>
+            <p style="font-size: 16px; margin-bottom: 0;">{{body_text}}</p>
+        </div>
+        <p>Your 11:47pm moment is waiting. Don't miss out on learning how to build an AI-powered income stream from scratch.</p>
+        <div style="text-align: center; margin-top: 32px;">
+            <a href="https://careerdevnetwork.com/ai-weekend" style="display: inline-block; background-color: #00ff00; color: #000; text-decoration: none; padding: 14px 28px; border-radius: 5px; font-weight: bold; font-size: 16px; box-shadow: 0 4px 12px rgba(0, 255, 0, 0.3);">Complete Registration →</a>
+        </div>
+    """
+    html_body = get_base_html("Finish your registration", content, app_name="AI Weekend", footer_text="&copy; 2026 Career Dev Network. All rights reserved.")
     return send_zeptomail(email, subject, html_body)

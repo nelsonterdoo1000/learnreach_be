@@ -86,3 +86,28 @@ class OTP(models.Model):
 
     def __str__(self):
         return f"{self.user.username} - {self.code} ({self.purpose})"
+
+class AIWeekendRegistration(models.Model):
+    name = models.CharField(max_length=255)
+    email = models.EmailField()
+    phone = models.CharField(max_length=20, blank=True)
+    payment_reference = models.CharField(max_length=100, unique=True, null=True, blank=True)
+    is_paid = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    access_email_sent = models.BooleanField(default=False)
+    meeting_link_sent = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"{self.name} - {self.email} - Paid: {self.is_paid}"
+
+class AIWeekendLead(models.Model):
+    name = models.CharField(max_length=255)
+    email = models.EmailField()
+    phone = models.CharField(max_length=20, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    email_1_sent = models.BooleanField(default=False)
+    email_2_sent = models.BooleanField(default=False)
+    email_3_sent = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"Lead: {self.name} - {self.email}"
