@@ -196,6 +196,17 @@ def send_ai_weekend_access_details(email):
             <li>A free ChatGPT account.</li>
             <li>Your full attention.</li>
         </ul>
+
+        <div style="background-color: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; padding: 18px; margin-top: 15px;">
+            <p style="margin: 0 0 8px 0; color: #166534; font-weight: bold; font-size: 15px;">💡 Optional: Build Along With Me via Abacus AI ($10)</p>
+            <p style="margin: 0 0 10px 0; color: #374151; font-size: 14px; line-height: 1.5;">
+                If you want to build along with me live on screen as I build, you can optionally sign up for 
+                <a href="https://chatllm.abacus.ai/GfBKHBRnfN" style="color: #0f6b4d; font-weight: bold; text-decoration: underline;">Abacus AI using this link</a>.
+            </p>
+            <p style="margin: 0; color: #4b5563; font-size: 13px; line-height: 1.5;">
+                This will give you access to top-tier AI models like <strong>Claude</strong>, <strong>ChatGPT</strong>, <strong>Nano Banana</strong>, and <strong>Kimi</strong> for a fraction of the original cost of each individual model ($10).
+            </p>
+        </div>
     """
     html_body = get_base_html("Access Details", content, app_name="AI Weekend", footer_text="&copy; 2026 Career Dev Network. All rights reserved.")
     return send_zeptomail(email, subject, html_body)
@@ -226,30 +237,56 @@ def send_ai_weekend_meeting_link(email):
             <li>A free ChatGPT account.</li>
             <li>Your full attention.</li>
         </ul>
+
+        <div style="background-color: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; padding: 18px; margin-top: 15px;">
+            <p style="margin: 0 0 8px 0; color: #166534; font-weight: bold; font-size: 15px;">💡 Optional: Build Along With Me via Abacus AI ($10)</p>
+            <p style="margin: 0 0 10px 0; color: #374151; font-size: 14px; line-height: 1.5;">
+                If you want to build along with me live on screen as I build, you can optionally sign up for 
+                <a href="https://chatllm.abacus.ai/GfBKHBRnfN" style="color: #0f6b4d; font-weight: bold; text-decoration: underline;">Abacus AI using this link</a>.
+            </p>
+            <p style="margin: 0; color: #4b5563; font-size: 13px; line-height: 1.5;">
+                This will give you access to top-tier AI models like <strong>Claude</strong>, <strong>ChatGPT</strong>, <strong>Nano Banana</strong>, and <strong>Kimi</strong> for a fraction of the original cost of each individual model ($10).
+            </p>
+        </div>
     """
     html_body = get_base_html("Meeting Link", content, app_name="AI Weekend", footer_text="&copy; 2026 Career Dev Network. All rights reserved.")
     return send_zeptomail(email, subject, html_body)
 
 def send_abandoned_cart_email(email, name, level=1):
+    greeting_name = name.split()[0].title() if name and name.strip() else "there"
+
     if level == 1:
-        subject = "Did you forget something?"
-        body_text = "We noticed you started checking out for the AI-Weekend Masterclass but didn't complete your registration."
+        subject = "Did you forget something? (Your AI-Weekend Seat)"
+        body_text = "We noticed you started checking out for the <strong>AI-Weekend Masterclass</strong>, but didn't finish. Seats are strictly limited to keep the live build session interactive."
     elif level == 2:
         subject = "Your seat is still reserved (for now)"
-        body_text = "Registration is filling up fast. You started checking out, but didn't finish. Don't let your 11:47pm moment slip away."
+        body_text = "Registration is filling up quickly. You started checking out, but your seat hasn't been confirmed yet. Don't let your 11:47pm moment slip away."
     else:
-        subject = "Final reminder: AI-Weekend Masterclass"
-        body_text = "This is our last reminder. Your spot will be released if you don't complete your registration now."
+        subject = "Final reminder: Your AI-Weekend spot is about to close"
+        body_text = "This is our last reminder. Your temporary hold is expiring and your spot will be released to someone on the waiting list."
 
     content = f"""
-        <div style="background: linear-gradient(135deg, #111 0%, #0a0a0a 100%); padding: 30px; border-radius: 12px; margin-bottom: 24px; color: #fff;">
-            <h2 style="color: #00ff00; margin-top: 0; font-size: 24px;">Hi {{name}},</h2>
-            <p style="font-size: 16px; margin-bottom: 0;">{{body_text}}</p>
+        <div style="background: linear-gradient(135deg, #091a10 0%, #030805 100%); padding: 30px; border-radius: 12px; margin-bottom: 24px; color: #fff; border: 1px solid #1a3a25;">
+            <span style="display: inline-block; background-color: rgba(74, 222, 128, 0.15); color: #4ade80; padding: 4px 12px; border-radius: 9999px; font-size: 12px; font-weight: bold; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 12px;">INCOMPLETE REGISTRATION</span>
+            <h2 style="color: #ffffff; margin-top: 0; margin-bottom: 12px; font-size: 22px;">Hi {greeting_name},</h2>
+            <p style="color: #d1d5db; font-size: 16px; line-height: 1.6; margin: 0;">{body_text}</p>
         </div>
-        <p>Your 11:47pm moment is waiting. Don't miss out on learning how to build an AI-powered income stream from scratch.</p>
-        <div style="text-align: center; margin-top: 32px;">
-            <a href="https://careerdevnetwork.com/ai-weekend" style="display: inline-block; background-color: #00ff00; color: #000; text-decoration: none; padding: 14px 28px; border-radius: 5px; font-weight: bold; font-size: 16px; box-shadow: 0 4px 12px rgba(0, 255, 0, 0.3);">Complete Registration →</a>
+        
+        <div style="background-color: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 20px; margin-bottom: 24px;">
+            <h3 style="color: #1a1a1a; margin-top: 0; margin-bottom: 12px; font-size: 16px;">What we will build together live:</h3>
+            <ul style="color: #4b5563; font-size: 14px; padding-left: 20px; margin: 0; line-height: 1.7;">
+                <li><strong>The Profit Centers:</strong> Conceive, build, and list digital products in a single weekend.</li>
+                <li><strong>The Attention System:</strong> Put your offer directly in front of buyers using AI-powered ads.</li>
+                <li><strong>The Automation Layer:</strong> Fully automated sales that drop into your account while you sleep.</li>
+            </ul>
         </div>
+
+        <p style="color: #374151; font-size: 15px; margin-bottom: 10px;">Your ticket is only <strong>₦5,000</strong> — less than a wrap of chicken shawarma and a drink.</p>
+        
+        <div style="text-align: center; margin: 32px 0 20px;">
+            <a href="https://careerdevnetwork.com/ai-weekend#checkout" style="display: inline-block; background: linear-gradient(180deg, #fef08a 0%, #eab308 100%); color: #000; text-decoration: none; padding: 16px 36px; border-radius: 50px; font-weight: 900; font-size: 16px; box-shadow: 0 4px 15px rgba(234, 179, 8, 0.4); text-transform: uppercase; letter-spacing: 0.5px;">Complete Registration for ₦5,000 →</a>
+        </div>
+        <p style="text-align: center; color: #9ca3af; font-size: 12px; margin: 0;">If you already completed your payment, please disregard this message.</p>
     """
     html_body = get_base_html("Finish your registration", content, app_name="AI Weekend", footer_text="&copy; 2026 Career Dev Network. All rights reserved.")
     return send_zeptomail(email, subject, html_body)

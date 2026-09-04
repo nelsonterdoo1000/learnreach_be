@@ -388,10 +388,19 @@ def log_checkout_intent(request):
     if not email or not name:
         return Response({'error': 'Name and email are required'}, status=status.HTTP_400_BAD_REQUEST)
 
+    email = email.strip().lower()
+
     lead, created = AIWeekendLead.objects.get_or_create(email=email, defaults={'name': name, 'phone': phone})
     if not created:
         lead.name = name
         lead.phone = phone
+        # If user hasn't paid yet, reset timer so abandoned cart reminder triggers 10 mins after this attempt
+        if not AIWeekendRegistration.objects.filter(email=email, is_paid=True).exists():
+            from django.utils import timezone
+            lead.created_at = timezone.now()
+            lead.email_1_sent = False
+            lead.email_2_sent = False
+            lead.email_3_sent = False
         lead.save()
 
     return Response({'message': 'Checkout intent logged'}, status=status.HTTP_200_OK)
