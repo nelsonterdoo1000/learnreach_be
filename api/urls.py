@@ -27,4 +27,6 @@ urlpatterns = [
     # AI Weekend Endpoints
     path('ai-weekend/verify-payment/', views.ai_weekend_verify_payment, name='ai_weekend_verify_payment'),
     path('ai-weekend/checkout-intent/', views.log_checkout_intent, name='log_checkout_intent'),
+    path('ai-weekend/paystack-webhook/', views.paystack_webhook, name='paystack_webhook'),
 ]
+

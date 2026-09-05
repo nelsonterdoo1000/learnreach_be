@@ -420,26 +420,146 @@ def ai_weekend_verify_payment(request):
     if not reference or not email or not name:
         return Response({'error': 'Reference, email, and name are required'}, status=status.HTTP_400_BAD_REQUEST)
 
-    # Note: In a real production app, we would make a server-to-server call to Paystack API 
-    # to verify the reference using the PAYSTACK_SECRET_KEY. 
-    # For this implementation, we trust the frontend reference if it's unique, but a real check is recommended.
-    # We will simulate verification here.
+    email = email.strip().lower()
 
-    if AIWeekendRegistration.objects.filter(payment_reference=reference).exists():
-        return Response({'error': 'Payment reference already used'}, status=status.HTTP_400_BAD_REQUEST)
+    # Find existing registration by email or reference, or create a new one
+    reg = AIWeekendRegistration.objects.filter(payment_reference=reference).first()
+    if not reg:
+        reg = AIWeekendRegistration.objects.filter(email=email).first()
 
-    registration = AIWeekendRegistration.objects.create(
-        name=name,
-        email=email,
-        phone=phone,
-        payment_reference=reference,
-        is_paid=True
-    )
+    if reg:
+        reg.is_paid = True
+        reg.name = name or reg.name
+        reg.phone = phone or reg.phone
+        reg.payment_reference = reference
+        reg.save()
+    else:
+        reg = AIWeekendRegistration.objects.create(
+            name=name,
+            email=email,
+            phone=phone,
+            payment_reference=reference,
+            is_paid=True
+        )
 
-    # Send first email securely (wrap in try-except so an email error doesn't break the payment flow)
+    # Send confirmation & onboarding emails
     try:
         send_ai_weekend_locked_in(email)
     except Exception as e:
         print(f"Failed to send locked-in email to {email}: {e}")
 
-    return Response({'message': 'Payment verified and registration complete', 'id': registration.id}, status=status.HTTP_200_OK)
+    try:
+        if not reg.access_email_sent:
+            send_ai_weekend_access_details(email)
+            reg.access_email_sent = True
+            reg.save()
+    except Exception as e:
+        print(f"Failed to send access details email to {email}: {e}")
+
+    return Response({'message': 'Payment verified and registration complete', 'id': reg.id}, status=status.HTTP_200_OK)
+
+
+import hmac
+import hashlib
+import json
+import os
+from django.views.decorators.csrf import csrf_exempt
+
+@csrf_exempt
+@api_view(['POST'])
+@permission_classes([AllowAny])
+def paystack_webhook(request):
+    """
+    Paystack Webhook listener.
+    Automatically catches 'charge.success' events server-to-server even if the user
+    closed their browser before the frontend callback could fire.
+    """
+    secret = os.getenv('PAYSTACK_SECRET', '').strip()
+    
+    # Signature verification if secret key is present
+    signature = request.headers.get('x-paystack-signature')
+    if secret and signature:
+        computed_hash = hmac.new(
+            secret.encode('utf-8'),
+            request.body,
+            hashlib.sha512
+        ).hexdigest()
+        if computed_hash != signature:
+            return Response({'error': 'Invalid signature'}, status=status.HTTP_400_BAD_REQUEST)
+    
+    try:
+        payload = json.loads(request.body.decode('utf-8'))
+    except Exception:
+        return Response({'error': 'Invalid JSON'}, status=status.HTTP_400_BAD_REQUEST)
+        
+    event = payload.get('event')
+    if event == 'charge.success':
+        data = payload.get('data', {})
+        reference = data.get('reference')
+        customer = data.get('customer', {})
+        email = (customer.get('email') or '').strip().lower()
+        metadata = data.get('metadata', {})
+        
+        name = ''
+        phone = customer.get('phone', '') or ''
+        
+        # Extract name/phone from metadata if passed by Paystack
+        if isinstance(metadata, dict):
+            name = metadata.get('name') or metadata.get('full_name') or ''
+            phone = phone or metadata.get('phone', '')
+            custom_fields = metadata.get('custom_fields', [])
+            if isinstance(custom_fields, list):
+                for field in custom_fields:
+                    if field.get('variable_name') in ['name', 'full_name'] and not name:
+                        name = field.get('value', '')
+                    if field.get('variable_name') in ['phone', 'phone_number'] and not phone:
+                        phone = field.get('value', '')
+
+        if not name:
+            name = f"{customer.get('first_name', '')} {customer.get('last_name', '')}".strip()
+            
+        # Fallback to AIWeekendLead if name/phone missing
+        lead = AIWeekendLead.objects.filter(email=email).first()
+        if lead:
+            name = name or lead.name
+            phone = phone or lead.phone
+
+        if email:
+            reg = AIWeekendRegistration.objects.filter(payment_reference=reference).first()
+            if not reg:
+                reg = AIWeekendRegistration.objects.filter(email=email).first()
+
+            if reg:
+                reg.is_paid = True
+                if reference and not reg.payment_reference:
+                    reg.payment_reference = reference
+                if name and (not reg.name or reg.name == 'Participant'):
+                    reg.name = name
+                if phone and not reg.phone:
+                    reg.phone = phone
+                reg.save()
+            else:
+                reg = AIWeekendRegistration.objects.create(
+                    name=name or 'Participant',
+                    email=email,
+                    phone=phone,
+                    payment_reference=reference,
+                    is_paid=True
+                )
+            
+            # Fire both onboarding emails immediately
+            try:
+                send_ai_weekend_locked_in(email)
+            except Exception as e:
+                print(f"Webhook locked-in email error for {email}: {e}")
+
+            try:
+                if not reg.access_email_sent:
+                    send_ai_weekend_access_details(email)
+                    reg.access_email_sent = True
+                    reg.save()
+            except Exception as e:
+                print(f"Webhook access details email error for {email}: {e}")
+
+    return Response({'status': 'success'}, status=status.HTTP_200_OK)
+
