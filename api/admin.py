@@ -13,6 +13,7 @@ from .models import (
     AIWeekendLead
 )
 
+import os
 from django.contrib import messages
 from .email_utils import (
     send_abandoned_cart_email,
@@ -28,7 +29,69 @@ class AIWeekendRegistrationAdmin(admin.ModelAdmin):
     search_fields = ('name', 'email', 'phone', 'payment_reference')
     readonly_fields = ('created_at',)
     ordering = ('-created_at',)
-    actions = ['resend_locked_in_email', 'resend_access_details_email', 'send_meeting_link_email', 'mark_as_paid_and_onboard']
+    actions = [
+        'resend_locked_in_email',
+        'resend_access_details_email',
+        'send_meeting_link_email',
+        'mark_as_paid_and_onboard',
+        'verify_with_paystack'
+    ]
+
+    def save_model(self, request, obj, form, change):
+        super().save_model(request, obj, form, change)
+        # If manually saved as paid, auto-fire the onboarding emails
+        if obj.is_paid and not obj.access_email_sent:
+            try:
+                send_ai_weekend_locked_in(obj.email)
+                send_ai_weekend_access_details(obj.email)
+                obj.access_email_sent = True
+                obj.save(update_fields=['access_email_sent'])
+                self.message_user(request, f"🎉 Successfully dispatched 'Locked In' and 'Access Details' emails to {obj.email}!", level=messages.SUCCESS)
+            except Exception as e:
+                self.message_user(request, f"Saved registration for {obj.email}, but email dispatch failed: {e}", level=messages.WARNING)
+
+    @admin.action(description="🔍 Verify with Paystack & Auto-Onboard")
+    def verify_with_paystack(self, request, queryset):
+        import requests
+        secret = os.getenv('PAYSTACK_SECRET', '').strip()
+        if not secret:
+            self.message_user(request, "PAYSTACK_SECRET is not configured in backend environment.", level=messages.ERROR)
+            return
+
+        success_count = 0
+        for reg in queryset:
+            if not reg.payment_reference:
+                self.message_user(request, f"Skipped {reg.email}: No payment reference provided.", level=messages.WARNING)
+                continue
+            try:
+                resp = requests.get(
+                    f"https://api.paystack.co/transaction/verify/{reg.payment_reference.strip()}",
+                    headers={"Authorization": f"Bearer {secret}"},
+                    timeout=10
+                )
+                if resp.status_code == 200:
+                    data = resp.json().get('data', {})
+                    if data.get('status') == 'success':
+                        reg.is_paid = True
+                        customer = data.get('customer', {})
+                        if not reg.phone and customer.get('phone'):
+                            reg.phone = customer.get('phone')
+                        reg.save()
+                        send_ai_weekend_locked_in(reg.email)
+                        if not reg.access_email_sent:
+                            send_ai_weekend_access_details(reg.email)
+                            reg.access_email_sent = True
+                            reg.save()
+                        success_count += 1
+                    else:
+                        self.message_user(request, f"Paystack returned status '{data.get('status')}' for {reg.payment_reference}.", level=messages.WARNING)
+                else:
+                    self.message_user(request, f"Paystack verification failed for {reg.payment_reference}: HTTP {resp.status_code}", level=messages.ERROR)
+            except Exception as e:
+                self.message_user(request, f"Error verifying {reg.payment_reference}: {e}", level=messages.ERROR)
+
+        if success_count:
+            self.message_user(request, f"Successfully verified & onboarded {success_count} participant(s) via Paystack API!", level=messages.SUCCESS)
 
     @admin.action(description="📧 Resend 'Locked In' Welcome Email")
     def resend_locked_in_email(self, request, queryset):
