@@ -299,16 +299,24 @@ def send_ai_weekend_important_links(email):
             <p style="font-size: 16px; margin-bottom: 0;">We are thrilled to have you join us for this exciting journey into the world of Artificial Intelligence. To make sure you are fully prepared, please find all the important links and information below.</p>
         </div>
         
-        <h3 style="color: #1a1a1a; font-size: 20px; border-bottom: 2px solid #e5e7eb; padding-bottom: 8px;">1. Training Livestream Access</h3>
+        <h3 style="color: #1a1a1a; font-size: 20px; border-bottom: 2px solid #e5e7eb; padding-bottom: 8px;">1. Training Livestream Access & Schedule</h3>
         <p>You can access our live training sessions using the link below. Be sure to bookmark it and set a reminder!</p>
+        <p><strong>Schedule:</strong> We start at exactly <strong>8:00 PM on the dot</strong> on both <strong>Sept 19th & 20th</strong>.</p>
         <p>👉 <strong><a href="https://youtube.com/live/Wn1PEYomThE?feature=share" style="color: #0f6b4d; text-decoration: underline;">Join the Livestream Here</a></strong></p>
 
-        <h3 style="color: #1a1a1a; font-size: 20px; border-bottom: 2px solid #e5e7eb; padding-bottom: 8px;">2. Join the WhatsApp Community</h3>
+        <h3 style="color: #1a1a1a; font-size: 20px; border-bottom: 2px solid #e5e7eb; padding-bottom: 8px;">2. What We Will Be Learning</h3>
+        <ul>
+            <li><strong>The Profit Centers:</strong> Discover actual digital products you can conceive, build, and list before Sunday night.</li>
+            <li><strong>The Attention System:</strong> Learn how to use AI-powered ads to put your product directly in front of buyers.</li>
+            <li><strong>The Automation Layer:</strong> Build the system that takes a total stranger from "never heard of you" to "money in your account" completely hands-free.</li>
+        </ul>
+
+        <h3 style="color: #1a1a1a; font-size: 20px; border-bottom: 2px solid #e5e7eb; padding-bottom: 8px;">3. Join the WhatsApp Community</h3>
         <p>We will be sharing updates, answering questions, and networking in our dedicated WhatsApp group. Please join immediately so you don't miss out on any real-time announcements:</p>
         <p>👉 <strong><a href="https://chat.whatsapp.com/LelSAC0jZfdH6gt9BWhkAz" style="color: #0f6b4d; text-decoration: underline;">Join the WhatsApp Group</a></strong></p>
 
         <div style="background-color: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; padding: 18px; margin-top: 25px; margin-bottom: 25px;">
-            <h3 style="margin: 0 0 10px 0; color: #166534; font-size: 18px;">💡 3. Abacus AI Setup (Optional but highly recommended)</h3>
+            <h3 style="margin: 0 0 10px 0; color: #166534; font-size: 18px;">💡 4. Abacus AI Setup (Optional but highly recommended)</h3>
             <p style="margin: 0 0 10px 0; color: #374151; font-size: 14px; line-height: 1.5;">
                 During the training, the main tool we will be using is <strong>Abacus AI</strong>. This is an incredible platform because it gives us access to all the premium AI models (like GPT-4, Claude 3.5 Sonnet, Gemini Pro, etc.) on the budget of just one!
             </p>
@@ -320,11 +328,11 @@ def send_ai_weekend_important_links(email):
             </p>
         </div>
 
-        <h3 style="color: #1a1a1a; font-size: 20px; border-bottom: 2px solid #e5e7eb; padding-bottom: 8px;">4. Quick Primer & Preparation</h3>
+        <h3 style="color: #1a1a1a; font-size: 20px; border-bottom: 2px solid #e5e7eb; padding-bottom: 8px;">5. Quick Primer & Preparation</h3>
         <ul>
             <li><strong>Test your setup:</strong> Make sure your internet connection is stable and YouTube is working properly.</li>
             <li><strong>Sign up:</strong> Create your Abacus AI account ahead of time so you are ready to jump right in.</li>
-            <li><strong>Bring your ideas:</strong> Come prepared with a notebook and some ideas or tasks you'd love to automate or improve using AI.</li>
+            <li><strong>Bring your ideas:</strong> Bring your business ideas so that we can refine them with AI and build products out of them.</li>
         </ul>
         
         <p style="margin-top: 25px;">If you have any questions before we begin, feel free to drop a message in the WhatsApp group.</p>
