@@ -290,3 +290,46 @@ def send_abandoned_cart_email(email, name, level=1):
     """
     html_body = get_base_html("Finish your registration", content, app_name="AI Weekend", footer_text="&copy; 2026 Career Dev Network. All rights reserved.")
     return send_zeptomail(email, subject, html_body)
+
+def send_ai_weekend_important_links(email):
+    subject = "Welcome to AI Weekend! 🚀 Important Links & Primer Inside"
+    content = """
+        <div style="background: linear-gradient(135deg, #111 0%, #0a0a0a 100%); padding: 30px; border-radius: 12px; margin-bottom: 24px; color: #fff;">
+            <h2 style="color: #00ff00; margin-top: 0; font-size: 24px;">Welcome to the AI Weekend! 🚀</h2>
+            <p style="font-size: 16px; margin-bottom: 0;">We are thrilled to have you join us for this exciting journey into the world of Artificial Intelligence. To make sure you are fully prepared, please find all the important links and information below.</p>
+        </div>
+        
+        <h3 style="color: #1a1a1a; font-size: 20px; border-bottom: 2px solid #e5e7eb; padding-bottom: 8px;">1. Training Livestream Access</h3>
+        <p>You can access our live training sessions using the link below. Be sure to bookmark it and set a reminder!</p>
+        <p>👉 <strong><a href="https://youtube.com/live/Wn1PEYomThE?feature=share" style="color: #0f6b4d; text-decoration: underline;">Join the Livestream Here</a></strong></p>
+
+        <h3 style="color: #1a1a1a; font-size: 20px; border-bottom: 2px solid #e5e7eb; padding-bottom: 8px;">2. Join the WhatsApp Community</h3>
+        <p>We will be sharing updates, answering questions, and networking in our dedicated WhatsApp group. Please join immediately so you don't miss out on any real-time announcements:</p>
+        <p>👉 <strong><a href="https://chat.whatsapp.com/LelSAC0jZfdH6gt9BWhkAz" style="color: #0f6b4d; text-decoration: underline;">Join the WhatsApp Group</a></strong></p>
+
+        <div style="background-color: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; padding: 18px; margin-top: 25px; margin-bottom: 25px;">
+            <h3 style="margin: 0 0 10px 0; color: #166534; font-size: 18px;">💡 3. Abacus AI Setup (Optional but highly recommended)</h3>
+            <p style="margin: 0 0 10px 0; color: #374151; font-size: 14px; line-height: 1.5;">
+                During the training, the main tool we will be using is <strong>Abacus AI</strong>. This is an incredible platform because it gives us access to all the premium AI models (like GPT-4, Claude 3.5 Sonnet, Gemini Pro, etc.) on the budget of just one!
+            </p>
+            <p style="margin: 0 0 10px 0; color: #374151; font-size: 14px; line-height: 1.5;">
+                There is a special offer for <strong>$7 for new signups</strong>. We highly recommend signing up for this so you can practice and experiment with the premium models right alongside us during the weekend.
+            </p>
+            <p style="margin: 0; font-size: 14px;">
+                👉 <strong><a href="https://abacus.ai" style="color: #0f6b4d; text-decoration: underline;">Sign up at Abacus.ai</a></strong>
+            </p>
+        </div>
+
+        <h3 style="color: #1a1a1a; font-size: 20px; border-bottom: 2px solid #e5e7eb; padding-bottom: 8px;">4. Quick Primer & Preparation</h3>
+        <ul>
+            <li><strong>Test your setup:</strong> Make sure your internet connection is stable and YouTube is working properly.</li>
+            <li><strong>Sign up:</strong> Create your Abacus AI account ahead of time so you are ready to jump right in.</li>
+            <li><strong>Bring your ideas:</strong> Come prepared with a notebook and some ideas or tasks you'd love to automate or improve using AI.</li>
+        </ul>
+        
+        <p style="margin-top: 25px;">If you have any questions before we begin, feel free to drop a message in the WhatsApp group.</p>
+        <p>We can't wait to see you there!</p>
+        <p>Best regards,<br>The AI Weekend Team</p>
+    """
+    html_body = get_base_html("Welcome & Important Links", content, app_name="AI Weekend", footer_text="&copy; 2026 Career Dev Network. All rights reserved.")
+    return send_zeptomail(email, subject, html_body)
