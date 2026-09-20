@@ -341,3 +341,57 @@ def send_ai_weekend_important_links(email):
     """
     html_body = get_base_html("Welcome & Important Links", content, app_name="AI Weekend", footer_text="&copy; 2026 Career Dev Network. All rights reserved.")
     return send_zeptomail(email, subject, html_body)
+
+def send_ai_weekend_reschedule_and_links(email):
+    subject = "Important Update: AI Weekend Rescheduled Dates & Important Links Inside 🚀"
+    content = """
+        <div style="background: linear-gradient(135deg, #111 0%, #0a0a0a 100%); padding: 30px; border-radius: 12px; margin-bottom: 24px; color: #fff;">
+            <h2 style="color: #ff9800; margin-top: 0; font-size: 24px;">Important Schedule Update 📅</h2>
+            <p style="font-size: 16px; margin-bottom: 15px;">Due to an unavoidable emergency journey yesterday that resulted in a delayed flight, we have had to adjust our schedule. We apologize for any inconvenience this may cause.</p>
+            <p style="font-size: 16px; margin-bottom: 0;"><strong>The class originally scheduled for yesterday has been shifted to today, and today's class has been shifted to tomorrow.</strong></p>
+        </div>
+        
+        <p style="font-size: 16px; margin-bottom: 20px;">We are still incredibly thrilled to have you join us for this exciting journey into the world of Artificial Intelligence. Please find all the important links and updated information below.</p>
+
+        <h3 style="color: #1a1a1a; font-size: 20px; border-bottom: 2px solid #e5e7eb; padding-bottom: 8px;">1. Training Livestream Access & Schedule</h3>
+        <p>You can access our live training sessions using the link below. Be sure to bookmark it and set a reminder!</p>
+        <p><strong>Updated Schedule:</strong> We start at exactly <strong>8:00 PM on the dot</strong> on both <strong>Sept 20th & 21st</strong>.</p>
+        <p>👉 <strong><a href="https://youtube.com/live/Wn1PEYomThE?feature=share" style="color: #0f6b4d; text-decoration: underline;">Join the Livestream Here</a></strong></p>
+
+        <h3 style="color: #1a1a1a; font-size: 20px; border-bottom: 2px solid #e5e7eb; padding-bottom: 8px;">2. What We Will Be Learning</h3>
+        <ul>
+            <li><strong>The Profit Centers:</strong> Discover actual digital products you can conceive, build, and list before the weekend ends.</li>
+            <li><strong>The Attention System:</strong> Learn how to use AI-powered ads to put your product directly in front of buyers.</li>
+            <li><strong>The Automation Layer:</strong> Build the system that takes a total stranger from "never heard of you" to "money in your account" completely hands-free.</li>
+        </ul>
+
+        <h3 style="color: #1a1a1a; font-size: 20px; border-bottom: 2px solid #e5e7eb; padding-bottom: 8px;">3. Join the WhatsApp Community</h3>
+        <p>We will be sharing updates, answering questions, and networking in our dedicated WhatsApp group. Please join immediately so you don't miss out on any real-time announcements:</p>
+        <p>👉 <strong><a href="https://chat.whatsapp.com/LelSAC0jZfdH6gt9BWhkAz" style="color: #0f6b4d; text-decoration: underline;">Join the WhatsApp Group</a></strong></p>
+
+        <div style="background-color: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; padding: 18px; margin-top: 25px; margin-bottom: 25px;">
+            <h3 style="margin: 0 0 10px 0; color: #166534; font-size: 18px;">💡 4. Abacus AI Setup (Optional but highly recommended)</h3>
+            <p style="margin: 0 0 10px 0; color: #374151; font-size: 14px; line-height: 1.5;">
+                During the training, the main tool we will be using is <strong>Abacus AI</strong>. This is an incredible platform because it gives us access to all the premium AI models (like GPT-4, Claude 3.5 Sonnet, Gemini Pro, etc.) on the budget of just one!
+            </p>
+            <p style="margin: 0 0 10px 0; color: #374151; font-size: 14px; line-height: 1.5;">
+                There is a special offer for <strong>$7 for new signups</strong>. We highly recommend signing up for this so you can practice and experiment with the premium models right alongside us during the weekend.
+            </p>
+            <p style="margin: 0; font-size: 14px;">
+                👉 <strong><a href="https://abacus.ai" style="color: #0f6b4d; text-decoration: underline;">Sign up at Abacus.ai</a></strong>
+            </p>
+        </div>
+
+        <h3 style="color: #1a1a1a; font-size: 20px; border-bottom: 2px solid #e5e7eb; padding-bottom: 8px;">5. Quick Primer & Preparation</h3>
+        <ul>
+            <li><strong>Test your setup:</strong> Make sure your internet connection is stable and YouTube is working properly.</li>
+            <li><strong>Sign up:</strong> Create your Abacus AI account ahead of time so you are ready to jump right in.</li>
+            <li><strong>Bring your ideas:</strong> Bring your business ideas so that we can refine them with AI and build products out of them.</li>
+        </ul>
+        
+        <p style="margin-top: 25px;">If you have any questions before we begin, feel free to drop a message in the WhatsApp group.</p>
+        <p>We can't wait to see you there, starting today!</p>
+        <p>Best regards,<br>The AI Weekend Team</p>
+    """
+    html_body = get_base_html("Schedule Update & Important Links", content, app_name="AI Weekend", footer_text="&copy; 2026 Career Dev Network. All rights reserved.")
+    return send_zeptomail(email, subject, html_body)

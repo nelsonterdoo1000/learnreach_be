@@ -20,7 +20,8 @@ from .email_utils import (
     send_ai_weekend_locked_in,
     send_ai_weekend_access_details,
     send_ai_weekend_meeting_link,
-    send_ai_weekend_important_links
+    send_ai_weekend_important_links,
+    send_ai_weekend_reschedule_and_links
 )
 
 @admin.register(AIWeekendRegistration)
@@ -35,6 +36,7 @@ class AIWeekendRegistrationAdmin(admin.ModelAdmin):
         'resend_access_details_email',
         'send_meeting_link_email',
         'send_important_links_email',
+        'send_reschedule_links_email',
         'mark_as_paid_and_onboard',
         'verify_with_paystack'
     ]
@@ -142,6 +144,17 @@ class AIWeekendRegistrationAdmin(admin.ModelAdmin):
             except Exception as e:
                 self.message_user(request, f"Error sending to {reg.email}: {e}", level=messages.ERROR)
         self.message_user(request, f"Successfully sent 'Important Links' email to {success_count} participant(s).", level=messages.SUCCESS)
+
+    @admin.action(description="📧 Send 'Reschedule & Links' Email")
+    def send_reschedule_links_email(self, request, queryset):
+        success_count = 0
+        for reg in queryset:
+            try:
+                if send_ai_weekend_reschedule_and_links(reg.email):
+                    success_count += 1
+            except Exception as e:
+                self.message_user(request, f"Error sending to {reg.email}: {e}", level=messages.ERROR)
+        self.message_user(request, f"Successfully sent 'Reschedule & Links' email to {success_count} participant(s).", level=messages.SUCCESS)
 
     @admin.action(description="✅ Mark as Paid & Send All Onboarding Emails")
     def mark_as_paid_and_onboard(self, request, queryset):
